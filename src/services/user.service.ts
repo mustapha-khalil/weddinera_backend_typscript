@@ -4,6 +4,7 @@ import { Request } from "express";
 import { Types } from "mongoose";
 import User, { IUser } from "../models/user.model";
 import * as configs from "../configs/user.config";
+import { validationResult } from "express-validator";
 
 export const fetchUser = async (email: string) => {
   try {
@@ -19,7 +20,6 @@ export const fetchUser = async (email: string) => {
     if (!existingUser) throw new Error(configs.errors.notFound.key);
     return existingUser;
   } catch (err) {
-    console.log("err", err);
     throw new Error(configs.errors.serverError.key);
   }
 };
@@ -69,4 +69,9 @@ export const generateUserResponseData = (user: IUser, token: string, message: st
         : user.hallId?.toObject({ getters: true }),
     token: token,
   };
+};
+
+export const validateData = (req: Request) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty) throw new Error(configs.errors.invalidData.key);
 };

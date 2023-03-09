@@ -6,7 +6,6 @@ const promiseHandler =
     try {
       await controller(req, res, next);
     } catch (error: any) {
-      console.log("error in promiseHandler", error);
       errorHandler(configs.errors, error, next);
     }
   };
