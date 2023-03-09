@@ -6,7 +6,6 @@ const errorHandler = (errors: Errors, error: Error, next: NextFunction) => {
   Object.values(errors).filter((err) => {
     if (err.key === error.message) return next(new HttpError(err.message.en, err.code));
   });
-
   return next(error);
 };
 

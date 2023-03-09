@@ -57,6 +57,6 @@ export const errors: Errors = {
   wrongCredentials: {
     key: "WrongCredentials",
     code: 400,
-    message: { en: "Wrong Credentials Provided" },
+    message: { en: "Invalid Credentials" },
   },
 };
