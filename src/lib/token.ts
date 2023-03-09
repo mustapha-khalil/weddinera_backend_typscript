@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 import { JWT_KEY } from "../config";
-import * as configs from "../configs/user.config";
 import { IUser } from "../models/user.model";
+import * as configs from "../configs/user.config";
 
 export const generateToken = async (user: IUser, expiry: string) => {
   try {
-    const verificationToken = jwt.sign({ user: user }, JWT_KEY, {
+    const verificationToken = jwt.sign({ user: user }, JWT_KEY as string, {
       expiresIn: expiry,
     });
     return verificationToken;
@@ -16,7 +16,7 @@ export const generateToken = async (user: IUser, expiry: string) => {
 
 export const verifyToken = async (verificationToken: string) => {
   try {
-    const decodedToken = jwt.verify(verificationToken, JWT_KEY);
+    const decodedToken = jwt.verify(verificationToken, JWT_KEY as string);
     return decodedToken;
   } catch (err) {
     throw new Error(configs.errors.tokenExpired.key);

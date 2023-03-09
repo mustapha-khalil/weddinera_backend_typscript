@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-
 import {
   areCredentialsValid,
-  arePasswordsIdentical,
   createUser,
   doesUserExist,
   fetchUser,
@@ -12,11 +10,11 @@ import {
   validateData,
 } from "../services/user.service";
 import { generateToken } from "../lib/token";
-import { IUser } from "../models/user.model";
-import * as configs from "../configs/user.config";
-import * as response from "../lib/response";
-import promiseHandler from "../lib/promise-handler";
 import { CustomRequest } from "../lib/types";
+import { IUser } from "../models/user.model";
+import promiseHandler from "../lib/promise-handler";
+import * as response from "../lib/response";
+import * as configs from "../configs/user.config";
 
 export const signin = promiseHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
