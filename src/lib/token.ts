@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 import { JWT_KEY } from "../config";
 import * as configs from "../configs/user.config";
 
