@@ -12,4 +12,6 @@ export type Errors = {
   [key: string]: ErrorProp;
 };
 
+export type CustomRequest = Request & { id: string };
+
 export type WrapperCallback = (req: Request, res: Response, next: NextFunction) => any;

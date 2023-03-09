@@ -16,6 +16,7 @@ import { IUser } from "../models/user.model";
 import * as configs from "../configs/user.config";
 import * as response from "../lib/response";
 import promiseHandler from "../lib/promise-handler";
+import { CustomRequest } from "../lib/types";
 
 export const signin = promiseHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
@@ -23,7 +24,7 @@ export const signin = promiseHandler(async (req: Request, res: Response, next: N
   validateData(req);
   const existingUser: IUser = await fetchUser(email);
   await areCredentialsValid(password, existingUser.password);
-  const token = await generateToken(existingUser.email, "30d");
+  const token = await generateToken(existingUser, "30d");
   const userResponseData = generateUserResponseData(existingUser, token, "logged in");
 
   return response.success(res, 200, userResponseData);
@@ -37,8 +38,13 @@ export const signup = promiseHandler(async (req: Request, res: Response, next: N
   const hashedPassword = await generateHashedPassword(password);
   const createdUser = createUser(req, hashedPassword);
   await saveUser(createdUser);
-  const token = await generateToken(email, "30d");
+  const token = await generateToken(createdUser, "30d");
   const userResponseData = generateUserResponseData(createdUser, token, "signed up");
 
   return response.success(res, 201, userResponseData);
 }, configs);
+
+export const addHallToFavoites = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req as CustomRequest;
+  response.success(res, 201);
+};
