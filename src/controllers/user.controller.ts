@@ -112,6 +112,7 @@ export const resetPassword = promiseHandler(
     arePasswordsIdentical(newPassword, confirmPassword);
     const password = await generateHashedPassword(newPassword);
     user.password = password;
+    user.passwordResetToken = null;
     await saveUser(user);
     response.success(res, 200);
   },

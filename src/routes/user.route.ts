@@ -15,6 +15,7 @@ import { editValidation, loginValidation, signupValidation } from "../validation
 
 router.post("/signin", loginValidation, signin);
 router.post("/signup", signupValidation, signup);
+router.patch("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:id/:token", resetPassword);
 
 router.use(checkAuth);
@@ -22,6 +23,5 @@ router.use(checkAuth);
 router.patch("/addFavorite", addHallToFavoites);
 router.patch("/changePassword", changePassword);
 router.patch("/edit", editValidation, editUser);
-router.patch("/forgotPassword", forgotPassword);
 
 export default router;
