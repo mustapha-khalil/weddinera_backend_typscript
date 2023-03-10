@@ -1,12 +1,12 @@
 import bcrypt from "bcryptjs";
 import { Request } from "express";
 
-import { Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import User, { IUser } from "../models/user.model";
 import * as configs from "../configs/user.config";
 import { validationResult } from "express-validator";
 
-export const fetchUser = async (email: string) => {
+export const fetchUserByEmail = async (email: string) => {
   try {
     const existingUser: IUser | null = await User.findOne({ email: email });
     // .populate("reservation");
@@ -22,6 +22,12 @@ export const fetchUser = async (email: string) => {
   } catch (err) {
     throw new Error(configs.errors.serverError.key);
   }
+};
+
+export const fetchUserById = async (id: string) => {
+  const user: IUser | null = await User.findById(id);
+  if (!user) throw new Error(configs.errors.wrongCredentials.key);
+  return user;
 };
 
 export const arePasswordsIdentical = async (password: string, confirmPassword: string) => {
@@ -74,4 +80,16 @@ export const generateUserResponseData = (user: IUser, token: string, message: st
 export const validateData = (req: Request) => {
   const errors = validationResult(req);
   if (!errors.isEmpty) throw new Error(configs.errors.invalidData.key);
+};
+
+export const toggleFavoriteHall = (user: IUser, hallId: string) => {
+  const index = user.favorites.findIndex((id) => id.toString() === hallId);
+
+  if (index < 0) return user.favorites.push(new mongoose.Types.ObjectId(hallId));
+  const newFavorites = user.favorites.filter((id) => id.toString() !== hallId);
+  user.favorites = newFavorites;
+};
+
+const addHall = (hallId: string) => {
+  // const newHallId = new mongoose.Types.ObjectId(hallId);
 };

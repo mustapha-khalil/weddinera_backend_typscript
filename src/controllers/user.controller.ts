@@ -3,15 +3,17 @@ import {
   areCredentialsValid,
   createUser,
   doesUserExist,
-  fetchUser,
+  fetchUserByEmail,
+  fetchUserById,
   generateHashedPassword,
   generateUserResponseData,
   saveUser,
+  toggleFavoriteHall,
   validateData,
 } from "../services/user.service";
 import { generateToken } from "../lib/token";
 import { CustomRequest } from "../lib/types";
-import { IUser } from "../models/user.model";
+import User, { IUser } from "../models/user.model";
 import promiseHandler from "../lib/promise-handler";
 import * as response from "../lib/response";
 import * as configs from "../configs/user.config";
@@ -20,7 +22,7 @@ export const signin = promiseHandler(async (req: Request, res: Response, next: N
   const { email, password } = req.body;
 
   validateData(req);
-  const existingUser: IUser = await fetchUser(email);
+  const existingUser: IUser = await fetchUserByEmail(email);
   await areCredentialsValid(password, existingUser.password);
   const token = await generateToken(existingUser, "30d");
   const userResponseData = generateUserResponseData(existingUser, token, "logged in");
@@ -42,7 +44,16 @@ export const signup = promiseHandler(async (req: Request, res: Response, next: N
   return response.success(res, 201, userResponseData);
 }, configs);
 
-export const addHallToFavoites = async (req: Request, res: Response, next: NextFunction) => {
-  const { id } = req as CustomRequest;
-  response.success(res, 201);
-};
+export const addHallToFavoites = promiseHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req as CustomRequest;
+    const { hallId } = req.body;
+
+    const user = await fetchUserById(id);
+    toggleFavoriteHall(user, hallId);
+    await saveUser(user);
+
+    response.success(res, 201);
+  },
+  configs
+);

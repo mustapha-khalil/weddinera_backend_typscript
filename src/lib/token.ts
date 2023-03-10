@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT_KEY } from "../config";
 import { IUser } from "../models/user.model";
 import * as configs from "../configs/user.config";
@@ -15,10 +15,6 @@ export const generateToken = async (user: IUser, expiry: string) => {
 };
 
 export const verifyToken = async (verificationToken: string) => {
-  try {
-    const decodedToken = jwt.verify(verificationToken, JWT_KEY as string);
-    return decodedToken;
-  } catch (err) {
-    throw new Error(configs.errors.tokenExpired.key);
-  }
+  const decodedToken = jwt.verify(verificationToken, JWT_KEY as string);
+  return decodedToken;
 };
