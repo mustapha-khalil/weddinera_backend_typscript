@@ -11,6 +11,11 @@ export const errors: Errors = {
     code: 404,
     message: { en: "Hall does not exist" },
   },
+  hallExists: {
+    key: "HallExists",
+    code: 409,
+    message: { en: "Hall already exists" },
+  },
   tokenExpired: {
     key: "TokenExpired",
     code: 400,
