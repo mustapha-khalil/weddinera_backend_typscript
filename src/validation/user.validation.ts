@@ -16,6 +16,6 @@ export const loginValidation = [
 ];
 
 export const editValidation = [
-  check("firstName").not().isEmpty(),
-  check("email").normalizeEmail({ gmail_remove_dots: false }).isEmail(),
+  check("firstName").isString().not().isEmpty(),
+  check("lastName").isString().not().isEmpty(),
 ];

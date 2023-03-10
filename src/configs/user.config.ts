@@ -53,7 +53,11 @@ export const errors: Errors = {
     code: 500,
     message: { en: "Failed to send email" },
   },
-
+  passwordResetTokenExists: {
+    key: "PasswordResetTokenExists",
+    code: 400,
+    message: { en: "Password reset token already exists, check your email to reset your password" },
+  },
   wrongCredentials: {
     key: "WrongCredentials",
     code: 400,

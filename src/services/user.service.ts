@@ -6,6 +6,7 @@ import User, { IUser } from "../models/user.model";
 import * as configs from "../configs/user.config";
 import { validationResult } from "express-validator";
 import { CustomRequest } from "../lib/types";
+import sendMail from "../lib/mail-service";
 
 export const fetchUserByEmail = async (email: string) => {
   try {
@@ -32,8 +33,9 @@ export const fetchUserById = async (req: Request) => {
   return user;
 };
 
-export const arePasswordsIdentical = async (password: string, confirmPassword: string) => {
-  if (password !== confirmPassword) throw new Error(configs.errors.passwordsNotEqual.key);
+export const arePasswordsIdentical = (password: string, confirmPassword: string) => {
+  if (!password || password !== confirmPassword)
+    throw new Error(configs.errors.passwordsNotEqual.key);
 };
 
 export const areCredentialsValid = async (receivedPassword: string, actualPassword: string) => {
@@ -91,4 +93,30 @@ export const toggleFavoriteHall = (user: IUser, req: Request) => {
   if (index < 0) return user.favorites.push(new mongoose.Types.ObjectId(hallId));
   const newFavorites = user.favorites.filter((id) => id.toString() !== hallId);
   user.favorites = newFavorites;
+};
+
+export const updateUserData = (user: IUser, req: Request) => {
+  const { firstName, lastName } = req.body;
+  user.firstName = firstName;
+  user.lastName = lastName;
+
+  return { firstName, lastName, profileImage: user.profileImage };
+};
+
+export const sendPasswordResetEmail = async (user: IUser, token: string) => {
+  const url = `webDomain/reset-password/${user._id}/${token}`;
+  const subject = "Reset Password";
+  const html = `click on the link below to reset your passw0rd <br> <a href="${url}"> Reset Password</a>`;
+
+  await sendMail(user.email, subject, "", html);
+};
+
+export const getUserById = async (id: string) => {
+  const user: IUser | null = await User.findById(id);
+  if (!user) throw new Error(configs.errors.wrongCredentials.key);
+  return user;
+};
+
+export const compareTokens = (receivedToken: string | null, actualToken: string) => {
+  if (receivedToken !== actualToken) throw new Error(configs.errors.invalidToken.key);
 };
