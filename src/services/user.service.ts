@@ -83,7 +83,7 @@ export const generateUserResponseData = (user: IUser, token: string, message: st
 
 export const validateData = (req: Request) => {
   const errors = validationResult(req);
-  if (!errors.isEmpty) throw new Error(configs.errors.invalidData.key);
+  if (!errors.isEmpty()) throw new Error(configs.errors.invalidData.key);
 };
 
 export const toggleFavoriteHall = (user: IUser, req: Request) => {
