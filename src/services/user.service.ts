@@ -56,10 +56,6 @@ export const createUser = (req: Request, hashedPassword: string) => {
   const createdUser = new User({
     ...req.body,
     password: hashedPassword,
-    favorites: [],
-    hallId: null,
-    reservation: null,
-    chatRooms: [],
   });
 
   return createdUser;

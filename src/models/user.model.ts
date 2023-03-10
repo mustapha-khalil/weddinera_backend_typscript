@@ -22,7 +22,7 @@ const userSchema = new Schema<IUser>({
   profileImage: { type: String, default: null },
   hallId: { type: Types.ObjectId, ref: "Hall", default: null },
   reservation: { type: Types.ObjectId, ref: "Booking", default: null },
-  passwordResetToken: { type: String },
+  passwordResetToken: { type: String, default: null },
   favorites: { type: [{ type: Types.ObjectId, ref: "Hall" }], default: [] },
   chatRooms: { type: [{ type: Types.ObjectId, ref: "ChatRoom" }], default: [] },
 });
