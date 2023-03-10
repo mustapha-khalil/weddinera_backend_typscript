@@ -5,6 +5,7 @@ import mongoose, { Types } from "mongoose";
 import User, { IUser } from "../models/user.model";
 import * as configs from "../configs/user.config";
 import { validationResult } from "express-validator";
+import { CustomRequest } from "../lib/types";
 
 export const fetchUserByEmail = async (email: string) => {
   try {
@@ -24,7 +25,8 @@ export const fetchUserByEmail = async (email: string) => {
   }
 };
 
-export const fetchUserById = async (id: string) => {
+export const fetchUserById = async (req: Request) => {
+  const { id } = req as CustomRequest;
   const user: IUser | null = await User.findById(id);
   if (!user) throw new Error(configs.errors.wrongCredentials.key);
   return user;
@@ -82,14 +84,11 @@ export const validateData = (req: Request) => {
   if (!errors.isEmpty) throw new Error(configs.errors.invalidData.key);
 };
 
-export const toggleFavoriteHall = (user: IUser, hallId: string) => {
+export const toggleFavoriteHall = (user: IUser, req: Request) => {
+  const { hallId } = req.body;
   const index = user.favorites.findIndex((id) => id.toString() === hallId);
 
   if (index < 0) return user.favorites.push(new mongoose.Types.ObjectId(hallId));
   const newFavorites = user.favorites.filter((id) => id.toString() !== hallId);
   user.favorites = newFavorites;
-};
-
-const addHall = (hallId: string) => {
-  // const newHallId = new mongoose.Types.ObjectId(hallId);
 };

@@ -46,11 +46,8 @@ export const signup = promiseHandler(async (req: Request, res: Response, next: N
 
 export const addHallToFavoites = promiseHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req as CustomRequest;
-    const { hallId } = req.body;
-
-    const user = await fetchUserById(id);
-    toggleFavoriteHall(user, hallId);
+    const user = await fetchUserById(req);
+    toggleFavoriteHall(user, req);
     await saveUser(user);
 
     response.success(res, 201);
