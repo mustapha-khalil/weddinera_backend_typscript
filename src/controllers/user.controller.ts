@@ -88,7 +88,7 @@ export const editUser = promiseHandler(async (req: Request, res: Response, next:
 
 export const forgotPassword = promiseHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = await fetchUserById(req);
+    const user = await fetchUserByEmail(req.body.email);
 
     user.passwordResetToken = null;
     const passwordResetToken = await generateToken(user, PASSWORD_RESET_TOKEN_EXPIRY + "m");
