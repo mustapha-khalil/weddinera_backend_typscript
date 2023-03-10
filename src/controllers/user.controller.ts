@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import {
   areCredentialsValid,
+  arePasswordsIdentical,
   createUser,
   doesUserExist,
   fetchUserByEmail,
@@ -49,6 +50,21 @@ export const addHallToFavoites = promiseHandler(
     const user = await fetchUserById(req);
     toggleFavoriteHall(user, req);
     await saveUser(user);
+
+    response.success(res, 201);
+  },
+  configs
+);
+
+export const changePassword = promiseHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+    const user = await fetchUserById(req);
+    await areCredentialsValid(currentPassword, user.password);
+    arePasswordsIdentical(newPassword, confirmPassword);
+    const password = await generateHashedPassword(newPassword);
+    user.password = password;
+    saveUser(user);
 
     response.success(res, 201);
   },
