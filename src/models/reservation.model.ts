@@ -1,4 +1,5 @@
 import { Document, model, now, Schema, Types, ObjectId } from "mongoose";
+import { IOffer } from "./offer.model";
 import { IService } from "./service.model";
 
 export interface IReservation extends Document {
@@ -8,7 +9,7 @@ export interface IReservation extends Document {
   createdAt: Date;
   status: "approved" | "cancelled";
   services: Types.Array<ObjectId | IService>;
-  offers: Types.Array<ObjectId>;
+  offers: Types.Array<ObjectId | IOffer>;
 }
 
 const reservationSchema = new Schema<IReservation>({
