@@ -1,4 +1,4 @@
-import { Document, model, now, Schema, Types } from "mongoose";
+import { Document, model, now, Schema, Types, ObjectId } from "mongoose";
 import { IChatroom } from "./chatroom.model";
 import { IReservation } from "./reservation.model";
 
@@ -13,12 +13,12 @@ export interface IHall extends Document {
     lng: number;
   };
   price: number;
-  ownerId: Types.ObjectId | null;
+  ownerId: ObjectId;
   createdAt: Date;
   status: "pending" | "approved" | "rejected";
   images: Types.Array<string>;
-  reservations: Types.Array<Types.ObjectId | IReservation>;
-  chatRooms: Types.Array<Types.ObjectId | IChatroom>;
+  reservations: Types.Array<ObjectId | IReservation>;
+  chatRooms: Types.Array<ObjectId | IChatroom>;
 }
 
 const hallSchema = new Schema<IHall>({

@@ -1,5 +1,6 @@
 import { Request } from "express";
-import mongoose, { Types } from "mongoose";
+import mongoose, { Types, ObjectId } from "mongoose";
+
 import { CustomRequest } from "../lib/types";
 import Hall, { IHall } from "../models/hall.model";
 import { IUser } from "../models/user.model";
@@ -27,7 +28,7 @@ export const saveHall = async (user: IUser, createdHall: IHall) => {
 
 export const doesHallExist = async (user: IUser, req: Request) => {
   const { location } = req.body;
-  const halls: Types.Array<Types.ObjectId | IHall> = (await user.populate("halls")).halls;
+  const halls: Types.Array<ObjectId | IHall> = (await user.populate("halls")).halls;
 
   for (const hall of halls) {
     if (!("location" in hall)) break;

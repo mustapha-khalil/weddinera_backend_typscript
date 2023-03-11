@@ -1,4 +1,4 @@
-import { Document, model, now, Schema, Types } from "mongoose";
+import { Document, model, now, Schema, Types, ObjectId } from "mongoose";
 import { IChatroom } from "./chatroom.model";
 import { IHall } from "./hall.model";
 import { IReservation } from "./reservation.model";
@@ -13,10 +13,10 @@ export interface IUser extends Document {
   profileImage: string | null;
   passwordResetToken: string | null;
   createdAt: Date;
-  halls: Types.Array<Types.ObjectId | IHall>;
-  reservations: Types.Array<Types.ObjectId | IReservation>;
-  favorites: Types.Array<Types.ObjectId | IHall>;
-  chatRooms: Types.Array<Types.ObjectId | IChatroom>;
+  halls: Types.Array<ObjectId | IHall>;
+  reservations: Types.Array<ObjectId | IReservation>;
+  favorites: Types.Array<ObjectId | IHall>;
+  chatRooms: Types.Array<ObjectId | IChatroom>;
 }
 
 const userSchema = new Schema<IUser>({
@@ -25,15 +25,19 @@ const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   type: { type: String, enum: ["user", "admin"], required: true, default: "user" },
   password: { type: String, required: true, minlength: 6 },
-  countryCode: { type: String, default: null },
-  mobileNumber: { type: String, default: null },
-  profileImage: { type: String, default: null },
-  passwordResetToken: { type: String, default: null },
-  createdAt: { type: Date, default: now() },
-  halls: { type: [{ type: Types.ObjectId, ref: "Hall" }], default: [] },
-  reservations: { type: [{ type: Types.ObjectId, ref: "Reservation" }], default: [] },
-  favorites: { type: [{ type: Types.ObjectId, ref: "Hall" }], default: [] },
-  chatRooms: { type: [{ type: Types.ObjectId, ref: "ChatRoom" }], default: [] },
+  countryCode: { type: String, required: true, default: null },
+  mobileNumber: { type: String, required: true, default: null },
+  profileImage: { type: String, required: true, default: null },
+  passwordResetToken: { type: String, required: true, default: null },
+  createdAt: { type: Date, required: true, default: now() },
+  halls: { type: [{ type: Types.ObjectId, ref: "Hall" }], required: true, default: [] },
+  favorites: { type: [{ type: Types.ObjectId, ref: "Hall" }], required: true, default: [] },
+  chatRooms: { type: [{ type: Types.ObjectId, ref: "ChatRoom" }], required: true, default: [] },
+  reservations: {
+    type: [{ type: Types.ObjectId, ref: "Reservation" }],
+    required: true,
+    default: [],
+  },
 });
 
 const UserModel = model<IUser>("User", userSchema);

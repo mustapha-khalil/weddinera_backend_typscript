@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { Request } from "express";
 
-import mongoose, { Types } from "mongoose";
+import mongoose, { Types, ObjectId } from "mongoose";
 import User, { IUser } from "../models/user.model";
 import * as configs from "../configs/user.config";
 import { validationResult } from "express-validator";
@@ -85,7 +85,7 @@ export const toggleFavoriteHall = (user: IUser, req: Request) => {
 
   if (index < 0) return user.favorites.push(new mongoose.Types.ObjectId(hallId));
   const newFavorites = user.favorites.filter((id) => id.toString() !== hallId);
-  user.favorites = new Types.Array<Types.ObjectId | IHall>(...newFavorites);
+  user.favorites = new Types.Array<ObjectId | IHall>(...newFavorites);
 };
 
 export const updateUserData = (user: IUser, req: Request) => {
