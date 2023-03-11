@@ -1,6 +1,4 @@
 import { Document, model, now, Schema, Types } from "mongoose";
-import { IHall } from "./hall.model";
-
 export interface IUser extends Document {
   firstName: string;
   lastName?: string;
