@@ -18,3 +18,5 @@ const offerSchema = new Schema<IOffer>({
 });
 
 const OfferModel = model<IOffer>("Offer", offerSchema);
+
+export default OfferModel;

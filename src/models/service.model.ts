@@ -19,3 +19,5 @@ const serviceSchema = new Schema<IService>({
 });
 
 const ServiceModel = model<IService>("Service", serviceSchema);
+
+export default ServiceModel;
