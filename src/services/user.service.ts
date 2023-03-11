@@ -69,10 +69,6 @@ export const generateUserResponseData = (user: IUser, token: string, message: st
   return {
     message: `logged in with ${user.email}`,
     userInfo: user.toObject({ getters: true }),
-    hallInfo:
-      user.hallId instanceof Types.ObjectId
-        ? user.hallId
-        : user.hallId?.toObject({ getters: true }),
     token: token,
   };
 };
@@ -88,7 +84,7 @@ export const toggleFavoriteHall = (user: IUser, req: Request) => {
 
   if (index < 0) return user.favorites.push(new mongoose.Types.ObjectId(hallId));
   const newFavorites = user.favorites.filter((id) => id.toString() !== hallId);
-  user.favorites = newFavorites;
+  user.favorites = new Types.Array<Types.ObjectId>(...newFavorites);
 };
 
 export const updateUserData = (user: IUser, req: Request) => {

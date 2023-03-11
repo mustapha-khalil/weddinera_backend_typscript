@@ -39,6 +39,8 @@ const hallSchema = new Schema<IHall>({
   chatRooms: { type: [{ type: Types.ObjectId, ref: "ChatRoom" }], default: [] },
 });
 
+hallSchema.index({ ownerId: 1, location: 1 }, { unique: true });
+
 const HallModel = model<IHall>("Hall", hallSchema); // this will later be the name of the collection in the database( but with lowercase and plural)
 
 export default HallModel;

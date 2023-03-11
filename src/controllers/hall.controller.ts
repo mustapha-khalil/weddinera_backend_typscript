@@ -11,7 +11,7 @@ export const createHall = promiseHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     validateData(req);
     const user = await fetchUserById(req);
-    await doesHallExist(user);
+    await doesHallExist(user, req);
     const createdHall: IHall = await createHallItem(req);
     await saveHall(user, createdHall);
 

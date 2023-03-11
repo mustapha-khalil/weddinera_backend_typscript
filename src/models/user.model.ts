@@ -1,4 +1,5 @@
 import { Document, model, now, Schema, Types } from "mongoose";
+import { IHall } from "./hall.model";
 export interface IUser extends Document {
   firstName: string;
   lastName?: string;
@@ -10,10 +11,10 @@ export interface IUser extends Document {
   profileImage: string | null;
   passwordResetToken: string | null;
   createdAt: Date;
-  halls: Types.ObjectId[];
-  reservations: Types.ObjectId[];
-  favorites: Types.ObjectId[];
-  chatRooms: Types.ObjectId[];
+  halls: Types.Array<Types.ObjectId | IHall>;
+  reservations: Types.Array<Types.ObjectId>;
+  favorites: Types.Array<Types.ObjectId>;
+  chatRooms: Types.Array<Types.ObjectId>;
 }
 
 const userSchema = new Schema<IUser>({
