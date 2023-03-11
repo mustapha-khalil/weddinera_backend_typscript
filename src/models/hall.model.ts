@@ -1,4 +1,6 @@
 import { Document, model, now, Schema, Types } from "mongoose";
+import { IChatroom } from "./chatroom.model";
+import { IReservation } from "./reservation.model";
 
 export interface IHall extends Document {
   hallName: string;
@@ -14,9 +16,9 @@ export interface IHall extends Document {
   ownerId: Types.ObjectId | null;
   createdAt: Date;
   status: "pending" | "approved" | "rejected";
-  images: string[];
-  reservations: Types.ObjectId[];
-  chatRooms: Types.ObjectId[];
+  images: Types.Array<string>;
+  reservations: Types.Array<Types.ObjectId | IReservation>;
+  chatRooms: Types.Array<Types.ObjectId | IChatroom>;
 }
 
 const hallSchema = new Schema<IHall>({

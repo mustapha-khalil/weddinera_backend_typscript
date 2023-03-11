@@ -7,6 +7,7 @@ import * as configs from "../configs/user.config";
 import { validationResult } from "express-validator";
 import { CustomRequest } from "../lib/types";
 import sendMail from "../lib/mail-service";
+import { IHall } from "../models/hall.model";
 
 export const fetchUserByEmail = async (email: string) => {
   try {
@@ -84,7 +85,7 @@ export const toggleFavoriteHall = (user: IUser, req: Request) => {
 
   if (index < 0) return user.favorites.push(new mongoose.Types.ObjectId(hallId));
   const newFavorites = user.favorites.filter((id) => id.toString() !== hallId);
-  user.favorites = new Types.Array<Types.ObjectId>(...newFavorites);
+  user.favorites = new Types.Array<Types.ObjectId | IHall>(...newFavorites);
 };
 
 export const updateUserData = (user: IUser, req: Request) => {
