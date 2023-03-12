@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { JWT_KEY } from "../config";
 import { IUser } from "../models/user.model";
 import * as configs from "../configs/user.config";

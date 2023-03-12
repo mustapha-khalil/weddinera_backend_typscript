@@ -18,7 +18,7 @@ import {
 } from "../services/user.service";
 import { generateToken, verifyToken } from "../lib/token";
 import { CustomRequest } from "../lib/types";
-import User, { IUser } from "../models/user.model";
+import { IUser } from "../models/user.model";
 import promiseHandler from "../lib/promise-handler";
 import * as response from "../lib/response";
 import * as configs from "../configs/user.config";

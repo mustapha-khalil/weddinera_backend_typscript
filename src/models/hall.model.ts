@@ -1,6 +1,8 @@
 import { Document, model, now, Schema, Types, ObjectId } from "mongoose";
 import { IChatroom } from "./chatroom.model";
+import { IOffer } from "./offer.model";
 import { IReservation } from "./reservation.model";
+import { IService } from "./service.model";
 
 export interface IHall extends Document {
   hallName: string;
@@ -17,6 +19,8 @@ export interface IHall extends Document {
   createdAt: Date;
   status: "pending" | "approved" | "rejected";
   images: Types.Array<string>;
+  services: Types.Array<ObjectId | IService>;
+  offers: Types.Array<ObjectId | IOffer>;
   reservations: Types.Array<ObjectId | IReservation>;
   chatRooms: Types.Array<ObjectId | IChatroom>;
 }
@@ -34,8 +38,10 @@ const hallSchema = new Schema<IHall>({
   createdAt: { type: Date, default: now() },
   status: { type: String, enum: ["approved", "rejected", "pending"], default: "pending" },
   images: { type: [{ type: String, required: true }], default: [] },
+  services: { type: [{ type: Types.ObjectId, required: true, ref: "Service" }], default: [] },
+  offers: { type: [{ type: Types.ObjectId, required: true, ref: "Offer" }], default: [] },
   reservations: {
-    type: [{ type: Types.ObjectId, required: true, ref: "Reservation" }],
+    type: [{ type: Types.ObjectId, ref: "Reservation" }],
     default: [],
   },
   chatRooms: { type: [{ type: Types.ObjectId, ref: "ChatRoom" }], default: [] },

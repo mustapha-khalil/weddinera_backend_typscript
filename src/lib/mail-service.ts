@@ -1,8 +1,6 @@
 import nodemailer from "nodemailer";
 
 import { EMAIL, EMAIL_PASS, EMAIL_SERVICE } from "../config";
-import * as configs from "../configs/user.config";
-import HttpError from "./http-error";
 
 const transporter = nodemailer.createTransport({
   service: EMAIL_SERVICE,

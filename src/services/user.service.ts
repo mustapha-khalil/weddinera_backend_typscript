@@ -1,30 +1,21 @@
 import bcrypt from "bcryptjs";
 import { Request } from "express";
+import { validationResult } from "express-validator";
 
 import mongoose, { Types, ObjectId } from "mongoose";
-import User, { IUser } from "../models/user.model";
 import * as configs from "../configs/user.config";
-import { validationResult } from "express-validator";
 import { CustomRequest } from "../lib/types";
 import sendMail from "../lib/mail-service";
+import User, { IUser } from "../models/user.model";
 import { IHall } from "../models/hall.model";
 
 export const fetchUserByEmail = async (email: string) => {
-  try {
-    const existingUser: IUser | null = await User.findOne({ email: email });
-    // .populate("reservation");
-    // .populate({
-    //   path: "hallId",
-    //   populate: {
-    //     path: "bookings",
-    //     model: "Booking",
-    //   },
-    // });
-    if (!existingUser) throw new Error(configs.errors.notFound.key);
-    return existingUser;
-  } catch (err) {
-    throw new Error(configs.errors.serverError.key);
-  }
+  const existingUser: IUser | null = await User.findOne({ email: email })
+    .populate("halls")
+    .populate("reservations");
+
+  if (!existingUser) throw new Error(configs.errors.notFound.key);
+  return existingUser;
 };
 
 export const fetchUserById = async (req: Request) => {

@@ -1,9 +1,11 @@
 import express from "express";
 import checkAuth from "../middlewares/check-auth";
-import { createHall } from "../controllers/hall.controller";
+import { createHall, getHalls } from "../controllers/hall.controller";
 import { createHallValidation } from "../validation/hall.validation";
 
 const router = express.Router();
+
+router.get("/", getHalls);
 
 router.use(checkAuth);
 

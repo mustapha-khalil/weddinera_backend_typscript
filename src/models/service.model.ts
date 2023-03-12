@@ -15,9 +15,32 @@ const serviceSchema = new Schema<IService>({
   price: { type: Number, required: true },
   createdAt: { type: Date, required: true, default: now() },
   hallId: { type: Types.ObjectId, required: true, ref: "Hall" },
-  offerId: { type: Types.ObjectId, required: true, default: null, ref: "Offer" },
+  offerId: { type: Types.ObjectId, default: null, ref: "Offer" },
 });
 
 const ServiceModel = model<IService>("Service", serviceSchema);
 
 export default ServiceModel;
+
+export const fillServices = async (hallId: string) => {
+  const services = [];
+
+  let service = new ServiceModel({
+    name: "some name",
+    description: "description",
+    price: 5,
+    hallId: "640e1a4d022d66b3c94b5fd4",
+  });
+
+  let anotherService = new ServiceModel({
+    name: "another service",
+    description: "description",
+    price: 8,
+    hallId: hallId,
+  });
+
+  services.push(service);
+  services.push(anotherService);
+
+  await ServiceModel.insertMany(services);
+};
