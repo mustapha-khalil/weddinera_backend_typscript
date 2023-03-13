@@ -5,6 +5,7 @@ export interface IService extends Document {
   description: string;
   price: number;
   createdAt: Date;
+  updatedAt: Date;
   hallId: ObjectId;
   offerId: ObjectId | null;
 }
@@ -14,6 +15,7 @@ const serviceSchema = new Schema<IService>({
   description: { type: String, required: true, default: "" },
   price: { type: Number, required: true },
   createdAt: { type: Date, required: true, default: now() },
+  updatedAt: { type: Date, required: true, default: now() },
   hallId: { type: Types.ObjectId, required: true, ref: "Hall" },
   offerId: { type: Types.ObjectId, default: null, ref: "Offer" },
 });

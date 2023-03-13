@@ -6,6 +6,7 @@ export interface IOffer extends Document {
   description: string;
   price: number;
   createdAt: Date;
+  updatedAt: Date;
   services: Types.Array<ObjectId | IService>;
 }
 
@@ -14,6 +15,7 @@ const offerSchema = new Schema<IOffer>({
   description: { type: String, required: true, minlength: 10 },
   price: { type: Number, required: true },
   createdAt: { type: Date, required: true, default: now() },
+  updatedAt: { type: Date, required: true, default: now() },
   services: { type: [{ type: Types.ObjectId, ref: "Service" }], required: true, default: [] },
 });
 

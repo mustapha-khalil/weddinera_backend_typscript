@@ -13,6 +13,7 @@ export interface IUser extends Document {
   profileImage: string | null;
   passwordResetToken: string | null;
   createdAt: Date;
+  updatedAt: Date;
   halls: Types.Array<ObjectId | IHall>;
   reservations: Types.Array<ObjectId | IReservation>;
   favorites: Types.Array<ObjectId | IHall>;
@@ -30,6 +31,7 @@ const userSchema = new Schema<IUser>({
   profileImage: { type: String, default: null },
   passwordResetToken: { type: String, default: null },
   createdAt: { type: Date, required: true, default: now() },
+  updatedAt: { type: Date, required: true, default: now() },
   halls: { type: [{ type: Types.ObjectId, ref: "Hall" }], required: true, default: [] },
   favorites: { type: [{ type: Types.ObjectId, ref: "Hall" }], required: true, default: [] },
   chatRooms: { type: [{ type: Types.ObjectId, ref: "ChatRoom" }], required: true, default: [] },

@@ -17,6 +17,7 @@ export interface IHall extends Document {
   price: number;
   ownerId: ObjectId;
   createdAt: Date;
+  updatedAt: Date;
   status: "pending" | "approved" | "rejected";
   images: Types.Array<string>;
   services: Types.Array<ObjectId | IService>;
@@ -36,6 +37,7 @@ const hallSchema = new Schema<IHall>({
   },
   ownerId: { type: Types.ObjectId, required: true, ref: "User" },
   createdAt: { type: Date, default: now() },
+  updatedAt: { type: Date, default: now() },
   status: { type: String, enum: ["approved", "rejected", "pending"], default: "pending" },
   images: { type: [{ type: String, required: true }], default: [] },
   services: { type: [{ type: Types.ObjectId, required: true, ref: "Service" }], default: [] },
