@@ -10,9 +10,7 @@ import User, { IUser } from "../models/user.model";
 import { IHall } from "../models/hall.model";
 
 export const fetchUserByEmail = async (email: string) => {
-  const existingUser: IUser | null = await User.findOne({ email: email })
-    .populate("halls")
-    .populate("reservations");
+  const existingUser: IUser | null = await User.findOne({ email: email }).populate("reservations");
 
   if (!existingUser) throw new Error(configs.errors.notFound.key);
   return existingUser;

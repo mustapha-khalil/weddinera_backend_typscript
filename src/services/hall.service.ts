@@ -1,5 +1,5 @@
 import { Request } from "express";
-import mongoose, { Types, ObjectId } from "mongoose";
+import mongoose, { Types, ObjectId, isObjectIdOrHexString } from "mongoose";
 import { validationResult } from "express-validator";
 
 import { CustomRequest } from "../lib/types";
@@ -73,12 +73,23 @@ export const getPaginationIndex = (req: Request) => {
   return 1;
 };
 
+export const getHallsByOwnerId = async (req: Request) => {
+  const { uid } = req.params;
+
+  const halls = await Hall.find({ ownerId: uid })
+    .populate({ path: "reservations" })
+    .populate("services")
+    .populate("offers");
+
+  return halls.map((hall) => hall.toObject({ getters: true, virtuals: true }));
+};
+
 export const fetchHalls = async (paginationIndex: number) => {
   const halls = await Hall.find()
     .populate({ path: "reservations" })
     .populate({
       path: "services",
-      select: "name description price hallId",
+      select: "name description price",
     })
     .populate("offers")
     .skip(5 * (paginationIndex - 1))
