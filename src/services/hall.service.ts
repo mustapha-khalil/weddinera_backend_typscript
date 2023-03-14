@@ -32,7 +32,7 @@ export const saveHall = async (user: IUser, createdHall: IHall) => {
   await sess.commitTransaction();
 };
 
-export const doesHallExist = async (user: IUser, req: Request) => {
+export const doesUserHaveHall = async (user: IUser, req: Request) => {
   const { location } = req.body;
   const halls: Types.Array<ObjectId | IHall> = (await user.populate("halls")).halls;
 
@@ -43,6 +43,22 @@ export const doesHallExist = async (user: IUser, req: Request) => {
     if (loc.lat === location.lat && loc.lng === location.lng)
       throw new Error(configs.errors.hallExists.key);
   }
+};
+
+const isValidObjectId = (id: string) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error(configs.errors.notFound.key);
+};
+
+export const findHallAndUpdate = async (req: Request) => {
+  isValidObjectId(req.params.hid);
+
+  const hall = await Hall.findOneAndUpdate(
+    { _id: req.params.hid },
+    { $set: req.body },
+    { new: true }
+  );
+
+  if (!hall) throw new Error(configs.errors.notFound.key);
 };
 
 export const generateFilteringQuery = (req: Request) => {
