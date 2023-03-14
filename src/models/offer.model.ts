@@ -14,7 +14,7 @@ const offerSchema = new Schema<IOffer>({
   name: { type: String, required: true, minlength: 2 },
   description: { type: String, required: true, minlength: 10 },
   price: { type: Number, required: true },
-  createdAt: { type: Date, required: true, default: now() },
+  createdAt: { type: Date, required: true, default: now(), immutable: true },
   updatedAt: { type: Date, required: true, default: now() },
   services: { type: [{ type: Types.ObjectId, ref: "Service" }], required: true, default: [] },
 });

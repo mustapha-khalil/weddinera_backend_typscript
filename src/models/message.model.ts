@@ -10,7 +10,7 @@ export interface IMessage extends Document {
 
 const messageSchema = new Schema<IMessage>({
   message: { type: String, required: true },
-  date: { type: Date, required: true, default: now() },
+  date: { type: Date, required: true, default: now(), immutable: true },
   senderId: { type: String, required: true },
   receiverId: { type: String, required: true },
   chatRoom: { type: Types.ObjectId, required: true, ref: "ChatRoom" },

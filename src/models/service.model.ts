@@ -14,7 +14,7 @@ const serviceSchema = new Schema<IService>({
   name: { type: String, required: true, minlength: 2 },
   description: { type: String, required: true, default: "" },
   price: { type: Number, required: true },
-  createdAt: { type: Date, required: true, default: now() },
+  createdAt: { type: Date, required: true, default: now(), immutable: true },
   updatedAt: { type: Date, required: true, default: now() },
   hallId: { type: Types.ObjectId, required: true, ref: "Hall" },
   offerId: { type: Types.ObjectId, default: null, ref: "Offer" },

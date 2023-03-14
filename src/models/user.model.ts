@@ -30,7 +30,7 @@ const userSchema = new Schema<IUser>({
   mobileNumber: { type: String, default: null },
   profileImage: { type: String, default: null },
   passwordResetToken: { type: String, default: null },
-  createdAt: { type: Date, required: true, default: now() },
+  createdAt: { type: Date, required: true, default: now(), immutable: true },
   updatedAt: { type: Date, required: true, default: now() },
   halls: { type: [{ type: Types.ObjectId, ref: "Hall" }], required: true, default: [] },
   favorites: { type: [{ type: Types.ObjectId, ref: "Hall" }], required: true, default: [] },

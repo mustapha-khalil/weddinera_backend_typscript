@@ -16,7 +16,7 @@ export interface IReservation extends Document {
 
 const reservationSchema = new Schema<IReservation>({
   date: { type: Date, required: true },
-  createdAt: { type: Date, required: true, default: now() },
+  createdAt: { type: Date, required: true, default: now(), immutable: true },
   updatedAt: { type: Date, required: true, default: now() },
   totalPrice: { type: Number, required: true, default: 0 },
   status: { type: String, required: true, enum: ["approved", "cancelled"], default: "approved" },

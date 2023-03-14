@@ -10,7 +10,7 @@ export interface IChatroom extends Document {
 const chatroomSchema = new Schema<IChatroom>({
   userId: { type: Types.ObjectId, required: true },
   hallId: { type: Types.ObjectId, required: true },
-  createdAt: { type: Date, required: true, default: now() },
+  createdAt: { type: Date, required: true, default: now(), immutable: true },
   messages: { type: [{ type: Types.ObjectId, ref: "Message" }], default: [] },
 });
 

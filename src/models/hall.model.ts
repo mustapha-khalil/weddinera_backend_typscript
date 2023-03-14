@@ -36,7 +36,7 @@ const hallSchema = new Schema<IHall>({
     lng: { type: Number, required: true },
   },
   ownerId: { type: Types.ObjectId, required: true, ref: "User" },
-  createdAt: { type: Date, default: now() },
+  createdAt: { type: Date, default: now(), immutable: true },
   updatedAt: { type: Date, default: now() },
   status: { type: String, enum: ["approved", "rejected", "pending"], default: "pending" },
   images: { type: [{ type: String, required: true }], default: [] },
