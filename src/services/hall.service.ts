@@ -75,11 +75,15 @@ export const getPaginationIndex = (req: Request) => {
 
 export const fetchHalls = async (paginationIndex: number) => {
   const halls = await Hall.find()
-    .populate("reservations")
-    .populate("services")
+    .populate({ path: "reservations" })
+    .populate({
+      path: "services",
+      select: "name description price hallId",
+    })
     .populate("offers")
-    .skip(20 * (paginationIndex - 1))
-    .limit(20);
+    .skip(5 * (paginationIndex - 1))
+    .limit(5);
 
-  return halls;
+  const hallObjects = halls.map((hall) => hall.toObject({ getters: true, virtuals: true }));
+  return hallObjects;
 };
