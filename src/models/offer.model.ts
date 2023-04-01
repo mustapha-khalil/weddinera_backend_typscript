@@ -1,5 +1,6 @@
 import { Document, model, now, Schema, Types, ObjectId } from "mongoose";
 import { IService } from "./service.model";
+import { IReservation } from "./reservation.model";
 
 export interface IOffer extends Document {
   name: string;
@@ -8,6 +9,7 @@ export interface IOffer extends Document {
   createdAt: Date;
   updatedAt: Date;
   services: Types.Array<ObjectId | IService>;
+  reservations: Types.Array<ObjectId | IReservation>;
 }
 
 const offerSchema = new Schema<IOffer>({
@@ -17,6 +19,11 @@ const offerSchema = new Schema<IOffer>({
   createdAt: { type: Date, required: true, default: now(), immutable: true },
   updatedAt: { type: Date, required: true, default: now() },
   services: { type: [{ type: Types.ObjectId, ref: "Service" }], required: true, default: [] },
+  reservations: {
+    type: [{ type: Types.ObjectId, ref: "Reservation" }],
+    required: true,
+    default: [],
+  },
 });
 
 const OfferModel = model<IOffer>("Offer", offerSchema);

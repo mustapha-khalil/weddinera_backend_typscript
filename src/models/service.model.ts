@@ -1,4 +1,6 @@
 import { Document, model, now, Schema, Types, ObjectId } from "mongoose";
+import { IOffer } from "./offer.model";
+import { IReservation } from "./reservation.model";
 
 export interface IService extends Document {
   name: string;
@@ -7,7 +9,8 @@ export interface IService extends Document {
   createdAt: Date;
   updatedAt: Date;
   hallId: ObjectId;
-  offerId: ObjectId | null;
+  reservations: Types.Array<ObjectId | IReservation>;
+  offers: Types.Array<ObjectId | IOffer>;
 }
 
 const serviceSchema = new Schema<IService>({
@@ -17,7 +20,12 @@ const serviceSchema = new Schema<IService>({
   createdAt: { type: Date, required: true, default: now(), immutable: true },
   updatedAt: { type: Date, required: true, default: now() },
   hallId: { type: Types.ObjectId, required: true, ref: "Hall" },
-  offerId: { type: Types.ObjectId, default: null, ref: "Offer" },
+  reservations: {
+    type: [{ type: Types.ObjectId, ref: "Reservation" }],
+    required: true,
+    default: [],
+  },
+  offers: { type: [{ type: Types.ObjectId, ref: "Offer" }], required: true, default: [] },
 });
 
 const ServiceModel = model<IService>("Service", serviceSchema);
