@@ -6,7 +6,7 @@ import * as response from "../lib/response";
 import { IHall } from "../models/hall.model";
 import {
   createHallItem,
-  doesUserHaveHall,
+  doesUserHaveHallInSameLocation,
   fetchHalls,
   findHallAndUpdate,
   generateFilteringQuery,
@@ -35,21 +35,22 @@ export const getUserHalls = promiseHandler(
 export const createHall = promiseHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     validateData(req);
+
     const user = await fetchUserById(req);
-    await doesUserHaveHall(user, req);
+    await doesUserHaveHallInSameLocation(user, req);
     const createdHall: IHall = await createHallItem(req);
     await saveHall(user, createdHall);
 
-    response.success(res, 201);
+    response.success(res, 201, { hall: createdHall.toObject({ getters: true }) });
   },
   configs
 );
 
 export const updateHall = promiseHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    await findHallAndUpdate(req);
+    const hall = await findHallAndUpdate(req);
 
-    response.success(res, 201);
+    response.success(res, 201, hall);
   },
   configs
 );

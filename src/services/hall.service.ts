@@ -32,7 +32,7 @@ export const saveHall = async (user: IUser, createdHall: IHall) => {
   await sess.commitTransaction();
 };
 
-export const doesUserHaveHall = async (user: IUser, req: Request) => {
+export const doesUserHaveHallInSameLocation = async (user: IUser, req: Request) => {
   const { location } = req.body;
   const halls: Types.Array<ObjectId | IHall> = (await user.populate("halls")).halls;
 
@@ -59,6 +59,7 @@ export const findHallAndUpdate = async (req: Request) => {
   );
 
   if (!hall) throw new Error(configs.errors.notFound.key);
+  return hall;
 };
 
 export const generateFilteringQuery = (req: Request) => {
@@ -86,7 +87,7 @@ export const getPaginationIndex = (req: Request) => {
   paginationIndex = Number(pagination);
   if (!isNaN(paginationIndex)) return paginationIndex;
 
-  return 1;
+  return paginationIndex;
 };
 
 export const getHallsByOwnerId = async (req: Request) => {
@@ -102,15 +103,11 @@ export const getHallsByOwnerId = async (req: Request) => {
 
 export const fetchHalls = async (paginationIndex: number) => {
   const halls = await Hall.find()
-    .populate({ path: "reservations" })
-    .populate({
-      path: "services",
-      select: "name description price",
-    })
     .populate("offers")
+    .populate({ path: "reservations" })
+    .populate({ path: "services", select: "name description price" })
     .skip(5 * (paginationIndex - 1))
     .limit(5);
 
-  const hallObjects = halls.map((hall) => hall.toObject({ getters: true, virtuals: true }));
-  return hallObjects;
+  return halls.map((hall) => hall.toObject({ getters: true, virtuals: true }));
 };

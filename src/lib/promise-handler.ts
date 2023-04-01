@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import errorHandler from "./error-handler";
+import { WrapperCallback } from "./types";
 
 const promiseHandler =
-  (controller: any, configs: any) => async (req: Request, res: Response, next: NextFunction) => {
+  (controller: WrapperCallback, configs: any) =>
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       await controller(req, res, next);
     } catch (error: any) {

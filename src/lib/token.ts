@@ -15,6 +15,5 @@ export const generateToken = async (user: IUser, expiry: string) => {
 };
 
 export const verifyToken = async (verificationToken: string) => {
-  const decodedToken = jwt.verify(verificationToken, JWT_KEY as string);
-  return decodedToken;
+  return jwt.verify(verificationToken, JWT_KEY as string);
 };

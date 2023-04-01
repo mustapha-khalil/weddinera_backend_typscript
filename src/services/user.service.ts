@@ -11,8 +11,8 @@ import { IHall } from "../models/hall.model";
 
 export const fetchUserByEmail = async (email: string) => {
   const existingUser: IUser | null = await User.findOne({ email: email }).populate("reservations");
-
   if (!existingUser) throw new Error(configs.errors.notFound.key);
+
   return existingUser;
 };
 
@@ -20,6 +20,7 @@ export const fetchUserById = async (req: Request) => {
   const { id } = req as CustomRequest;
   const user: IUser | null = await User.findById(id);
   if (!user) throw new Error(configs.errors.wrongCredentials.key);
+
   return user;
 };
 
@@ -57,7 +58,7 @@ export const saveUser = async (createdUser: IUser) => {
 
 export const generateUserResponseData = (user: IUser, token: string, message: string) => {
   return {
-    message: `logged in with ${user.email}`,
+    message: message,
     userInfo: user.toObject({ getters: true }),
     token: token,
   };

@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyToken } from "../lib/token";
-import * as configs from "../configs/user.config";
-import promiseHandler from "../lib/promise-handler";
 import { JwtPayload } from "jsonwebtoken";
+
+import { verifyToken } from "../lib/token";
+import promiseHandler from "../lib/promise-handler";
+import * as configs from "../configs/user.config";
 
 const checkAuth = promiseHandler(async (req: Request, res: Response, next: NextFunction) => {
   try {

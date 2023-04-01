@@ -15,13 +15,13 @@ import { editValidation, loginValidation, signupValidation } from "../validation
 
 router.post("/signin", loginValidation, signin);
 router.post("/signup", signupValidation, signup);
-router.patch("/forgotPassword", forgotPassword);
-router.patch("/resetPassword/:id/:token", resetPassword);
+router.patch("/forgot-password", forgotPassword);
+router.patch("/reset-password/:id/:token", resetPassword);
 
 router.use(checkAuth);
 
-router.patch("/addFavorite", addHallToFavoites);
-router.patch("/changePassword", changePassword);
+router.patch("/add-favorite", addHallToFavoites);
+router.patch("/change-password", changePassword);
 router.patch("/edit", editValidation, editUser);
 
 export default router;

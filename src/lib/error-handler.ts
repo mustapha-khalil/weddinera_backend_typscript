@@ -1,6 +1,6 @@
 import { NextFunction } from "express";
-import HttpError from "./http-error";
 import { Errors } from "./types";
+import HttpError from "./http-error";
 
 const errorHandler = (errors: Errors, error: Error, next: NextFunction) => {
   Object.values(errors).filter((err) => {
